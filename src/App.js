@@ -1,4 +1,6 @@
 import { Component } from 'react'
+import CardList from './components/card-list/card-list.component'
+import SearchBox from './components/search-box/search-box.component'
 import './App.css'
 
 class App extends Component {
@@ -6,22 +8,20 @@ class App extends Component {
     super()
     this.state = {
       // prettier-ignore
-      monsters: [
-        {id: 'oodsd3', name: 'Frunk'},
-        {id: 's1d2sd', name: 'Jude'},
-        {id: 'g234df',name: 'Andrew'},
-        {id: 'abccx3',name: 'Tom'}
-      ],
+      robots: [],
       searchString: '',
       img: 'old'
     }
   }
   componentDidMount() {
-    fetch('https://dog.ceo/api/breeds/image/random')
-      .then(response => response.json())
-      .then(dog => {
+    // TODO: http https 请求问题
+    fetch('http://localhost:3001')
+      .then(_ => _.json())
+      .then(data => {
         this.setState(() => {
-          return { img: dog.message }
+          return {
+            robots: data.data
+          }
         })
       })
   }
@@ -36,18 +36,21 @@ class App extends Component {
 
   render() {
     // TIP 优化2：提高可读性
-    const { searchString, monsters } = this.state
+    const { searchString, robots } = this.state
     const { onInputChange } = this
-    const filteredMonsters = monsters.filter(monster => {
-      return monster.name.toLowerCase().includes(searchString)
+    const filteredRobots = robots.filter(robot => {
+      return robot.name.toLowerCase().includes(searchString)
     })
 
     return (
       <div className='App'>
-        <input className='search' placeholder='search monsters' onChange={onInputChange} />
-        {filteredMonsters.map(monster => (
-          <h1 key={monster.id}> {monster.name} </h1>
-        ))}
+        <h1 className='app-title'>Robots Rolodex</h1>
+        <SearchBox
+          className='search-box'
+          placeholder='search robots'
+          onChangeHandler={onInputChange}
+        />
+        <CardList robots={filteredRobots} />
       </div>
     )
   }
