@@ -14,7 +14,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    // TODO: http https 请求问题
+    // BUGFIX: http https 请求问题，已解决，前后端全部改为 http
     fetch('http://124.222.44.115:3001')
       .then(_ => _.json())
       .then(data => {
