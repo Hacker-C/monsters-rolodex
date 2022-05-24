@@ -15,7 +15,7 @@ class App extends Component {
   }
   componentDidMount() {
     // TODO: http https 请求问题
-    fetch('http://localhost:3001')
+    fetch('http://124.222.44.115:3001')
       .then(_ => _.json())
       .then(data => {
         this.setState(() => {
